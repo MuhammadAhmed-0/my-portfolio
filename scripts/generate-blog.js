@@ -420,7 +420,74 @@ function main() {
     const SITE_URL = "https://muhammadahmed.pages.dev";
     updateSitemap(allPosts, SITE_URL);
 
+    copyToDist();
+
     console.log("\nBuild complete!");
+}
+
+function copyToDist() {
+    const DIST_DIR = path.join(ROOT_DIR, 'dist');
+
+    if (fs.existsSync(DIST_DIR)) {
+        fs.rmSync(DIST_DIR, { recursive: true, force: true });
+    }
+    fs.mkdirSync(DIST_DIR, { recursive: true });
+
+    const filesToCopy = [
+        'index.html',
+        'styles.css',
+        'script.js',
+        'blog.css',
+        'blog.js',
+        'blog.html',
+        'favicon.ico',
+        'sitemap.xml',
+        '_redirects',
+        'Muhammad_Ahmed_SEO_Specialist.pdf',
+        'case-study-template.html',
+    ];
+
+    const dirsToCopy = [
+        'admin',
+        'assets',
+        'blog',
+        'images',
+    ];
+
+    const rootFiles = fs.readdirSync(ROOT_DIR);
+    const caseStudyFiles = rootFiles.filter(f => f.endsWith('-case-study.html'));
+    const blogPostFiles = rootFiles.filter(f => f.startsWith('blog-post-') && f.endsWith('.html'));
+    const allFiles = [...filesToCopy, ...caseStudyFiles, ...blogPostFiles];
+
+    for (const file of allFiles) {
+        const src = path.join(ROOT_DIR, file);
+        if (fs.existsSync(src)) {
+            fs.copyFileSync(src, path.join(DIST_DIR, file));
+        }
+    }
+
+    for (const dir of dirsToCopy) {
+        const src = path.join(ROOT_DIR, dir);
+        if (fs.existsSync(src)) {
+            copyDirRecursive(src, path.join(DIST_DIR, dir));
+        }
+    }
+
+    console.log(`  Copied site files to dist/ folder`);
+}
+
+function copyDirRecursive(src, dest) {
+    fs.mkdirSync(dest, { recursive: true });
+    const entries = fs.readdirSync(src, { withFileTypes: true });
+    for (const entry of entries) {
+        const srcPath = path.join(src, entry.name);
+        const destPath = path.join(dest, entry.name);
+        if (entry.isDirectory()) {
+            copyDirRecursive(srcPath, destPath);
+        } else {
+            fs.copyFileSync(srcPath, destPath);
+        }
+    }
 }
 
 function updateHomepageBlogPreview(posts) {
