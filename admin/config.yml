@@ -4,7 +4,7 @@ backend:
   branch: main
   base_url: https://muhammadahmed.pages.dev/
   auth_endpoint: /api/auth
-
+  client_id: Ov23ctghcuI7q8d7qtaz
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
