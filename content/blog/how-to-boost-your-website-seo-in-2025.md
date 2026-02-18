@@ -6,7 +6,7 @@ metaTitle: How to Boost Your Website SEO in 2025 - Proven Strategies
 metaDescription: Learn the most effective SEO strategies to boost your website
   rankings in 2025. From technical SEO to content optimization, this guide
   covers it all.
-featuredImage: /images/uploads/images.jpg
+featuredImage: /images/uploads/screenshot-2026-01-15-123915.png
 featuredImageAlt: SEO strategy illustration showing search engine optimization techniques
 excerpt: Discover proven SEO strategies that will help you climb search engine
   rankings and drive more organic traffic to your website in 2025.
