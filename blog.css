@@ -122,6 +122,23 @@
     font-size: 4rem;
     font-weight: 800;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+.post-featured-image.has-image {
+    height: auto;
+    background: none;
+    font-size: 0;
+}
+
+.post-featured-image.has-image img {
+    width: 100%;
+    max-width: 900px;
+    height: auto;
+    display: block;
+    border-radius: 20px;
+    object-fit: contain;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
 }
 
 .post-content {
@@ -240,6 +257,10 @@
         height: 300px;
         font-size: 3rem;
         margin-top: -4rem;
+    }
+    
+    .post-featured-image.has-image {
+        height: auto;
     }
     
     .post-content {

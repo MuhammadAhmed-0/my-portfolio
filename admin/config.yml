@@ -1,0 +1,27 @@
+backend:
+  name: github
+  repo: MuhammadAhmed-0/my-portfolio
+  branch: main
+  base_url: https://muhammadahmed.pages.dev
+  auth_endpoint: /api/auth
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "content/blog"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Meta Title", name: "metaTitle", widget: "string" }
+      - { label: "Meta Description", name: "metaDescription", widget: "text" }
+      - { label: "Featured Image", name: "featuredImage", widget: "image" }
+      - { label: "Featured Image Alt Text", name: "featuredImageAlt", widget: "string", required: false, default: "" }
+      - { label: "Excerpt", name: "excerpt", widget: "text" }
+      - { label: "Category", name: "category", widget: "select", options: ["SEO", "PPC", "Content Marketing", "Web Development"], default: "SEO" }
+      - { label: "Body", name: "body", widget: "markdown" }
