@@ -1,13 +1,16 @@
 ---
-title: "How to Boost Your Website SEO in 2025"
-slug: "how-to-boost-your-website-seo-in-2025"
+title: How to Boost Your Website SEO in 2025
+slug: how-to-boost-your-website-seo-in-2025
 date: 2025-04-01T10:00:00.000Z
-metaTitle: "How to Boost Your Website SEO in 2025 - Proven Strategies"
-metaDescription: "Learn the most effective SEO strategies to boost your website rankings in 2025. From technical SEO to content optimization, this guide covers it all."
-featuredImage: "/images/uploads/seo-boost-2025.webp"
-featuredImageAlt: "SEO strategy illustration showing search engine optimization techniques"
-excerpt: "Discover proven SEO strategies that will help you climb search engine rankings and drive more organic traffic to your website in 2025."
-category: "SEO"
+metaTitle: How to Boost Your Website SEO in 2025 - Proven Strategies
+metaDescription: Learn the most effective SEO strategies to boost your website
+  rankings in 2025. From technical SEO to content optimization, this guide
+  covers it all.
+featuredImage: /images/uploads/images.jpg
+featuredImageAlt: SEO strategy illustration showing search engine optimization techniques
+excerpt: Discover proven SEO strategies that will help you climb search engine
+  rankings and drive more organic traffic to your website in 2025.
+category: SEO
 ---
 
 Search engine optimization is constantly evolving. What worked last year may not be effective today. In this comprehensive guide, we'll explore the most impactful strategies to boost your website's SEO performance in 2025.
