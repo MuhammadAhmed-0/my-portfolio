@@ -440,57 +440,25 @@ renderCertificates();
 const blogPosts = [
     {
         id: 1,
-        title: "10 SEO Trends That Will Dominate 2025",
-        excerpt: "Stay ahead of the curve with these critical SEO trends that will shape search engine optimization in 2025.",
+        title: "Best Websites to Make Money Online",
+        excerpt: "There's a money-making website for just about every skill set, from artists to experienced professionals to people who like taking surveys.",
         category: "SEO",
-        date: "March 15, 2025",
-        readTime: "8 min read",
-        icon: "🔍"
+        date: "February 16, 2026",
+        readTime: "3 min read",
+        icon: "",
+        featuredImage: "/images/uploads/download.png",
+        slug: "best-way-to-make-money"
     },
     {
         id: 2,
-        title: "How to Create High-Converting PPC Campaigns",
-        excerpt: "Master the art of PPC advertising with proven strategies to maximize ROI and reduce wasted ad spend.",
-        category: "PPC",
-        date: "March 12, 2025",
-        readTime: "10 min read",
-        icon: "💰"
-    },
-    {
-        id: 3,
-        title: "Content Marketing Strategy for 2025",
-        excerpt: "Build a content marketing strategy that drives engagement, builds authority, and generates qualified leads.",
-        category: "Content",
-        date: "March 10, 2025",
-        readTime: "12 min read",
-        icon: "📄"
-    },
-    {
-        id: 4,
-        title: "Website Speed Optimization Guide",
-        excerpt: "Learn how to optimize your website for lightning-fast load times and better user experience.",
-        category: "Web Dev",
-        date: "March 8, 2025",
-        readTime: "15 min read",
-        icon: "⚡"
-    },
-    {
-        id: 5,
-        title: "Local SEO: Complete Guide for Small Businesses",
-        excerpt: "Dominate local search results with this comprehensive guide to local SEO strategies and tactics.",
+        title: "How to Boost Your Website SEO in 2025",
+        excerpt: "Discover proven SEO strategies that will help you climb search engine rankings and drive more organic traffic to your website in 2025.",
         category: "SEO",
-        date: "March 5, 2025",
-        readTime: "11 min read",
-        icon: "📍"
-    },
-    {
-        id: 6,
-        title: "The Power of A/B Testing in Digital Marketing",
-        excerpt: "Discover how A/B testing can dramatically improve your marketing performance and increase conversions.",
-        category: "PPC",
-        date: "March 3, 2025",
-        readTime: "9 min read",
-        icon: "🧪"
+        date: "April 1, 2025",
+        readTime: "3 min read",
+        icon: "",
+        featuredImage: "/images/uploads/seo-boost-2025.webp",
+        slug: "how-to-boost-your-website-seo-in-2025"
     }
 ];
 
@@ -516,16 +484,16 @@ const createBlogCard = (post, index) => {
     card.setAttribute('data-aos-delay', (index % 3) * 100);
     
     card.innerHTML = `
-        <div class="blog-image">${post.icon}</div>
+        <div class="blog-image">${post.featuredImage ? '<img src="' + post.featuredImage + '" alt="' + post.title + '" style="width:100%;height:100%;object-fit:cover;border-radius:15px 15px 0 0;">' : post.icon}</div>
         <div class="blog-content">
             <div class="blog-meta">
                 <span>${post.date}</span>
-                <span>•</span>
+                <span>\u2022</span>
                 <span>${post.readTime}</span>
             </div>
             <h3 class="blog-title">${post.title}</h3>
             <p class="blog-excerpt">${post.excerpt}</p>
-            <a href="./blog-post-${post.id}.html" class="blog-read-more">
+            <a href="${post.slug ? './blog/' + post.slug + '.html' : './blog-post-' + post.id + '.html'}" class="blog-read-more">
                 Read More
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="5" y1="12" x2="19" y2="12"></line>

@@ -1,0 +1,169 @@
+I have an existing static HTML website.
+
+Important context:
+
+The website is already hosted on Cloudflare Pages.
+
+The source code is stored in GitHub.
+
+The site is built using pure HTML, CSS, and JS.
+
+I DO NOT want to modify or break any existing pages (index.html, about.html, etc.).
+
+I only want to implement a dynamic publishing system for the /blog section.
+
+The blog pages must follow my existing blog design layout (header, footer, styling must stay consistent).
+
+Your task is to implement a production-ready Git-based CMS blog system using Decap CMS.
+
+Use:
+Decap CMS
+
+The system must follow this architecture:
+
+FOLDER STRUCTURE
+
+Create the following structure:
+
+/admin/index.html
+/admin/config.yml
+/content/blog/
+/scripts/generate-blog.js
+/blog/
+/images/uploads/
+
+Do NOT modify non-blog pages.
+
+ADMIN DASHBOARD
+
+Set up Decap CMS at /admin.
+
+Requirements:
+
+GitHub backend authentication
+
+Store blog posts as Markdown files in /content/blog
+
+Store uploaded images in /images/uploads
+
+Each blog post must include these fields:
+
+Title
+
+Slug
+
+Publish Date
+
+Meta Title
+
+Meta Description
+
+Featured Image
+
+Body (Markdown editor)
+
+CMS must allow non-technical users to publish blogs easily.
+
+BLOG GENERATION SCRIPT
+
+Create /scripts/generate-blog.js.
+
+The script must:
+
+Read all markdown files from /content/blog
+
+Parse frontmatter using gray-matter
+
+Convert markdown body to HTML using marked
+
+Generate static HTML files inside:
+
+/blog/{slug}.html
+
+Each generated blog page must:
+
+Follow my existing blog page layout
+
+Reuse header and footer structure
+
+Keep same CSS classes and design
+
+Include:
+
+<title>metaTitle</title> <meta name="description" content="metaDescription"> <link rel="canonical"> Open Graph tags Proper <h1> Featured image with alt text Semantic HTML structure
+
+Do NOT generate plain basic HTML.
+It must match the current site’s styling and layout.
+
+BLOG LISTING PAGE
+
+Update /blog/index.html so that:
+
+It automatically lists all blog posts
+
+Displays:
+
+Featured image
+
+Title
+
+Short excerpt
+
+Read More link to /blog/slug.html
+
+Uses the current blog card design of the website
+
+PACKAGE CONFIGURATION
+
+Create package.json with:
+
+Dependencies:
+
+gray-matter
+
+marked
+
+Scripts:
+"build": "node scripts/generate-blog.js"
+
+CLOUDFLARE BUILD SETTINGS
+
+Build command:
+npm install && npm run build
+
+Output directory:
+/
+
+SEO REQUIREMENTS
+
+Each blog page must:
+
+Be static HTML (not JS rendered)
+
+Have clean URLs
+
+Include meta title and description
+
+Include Open Graph tags
+
+Use proper heading structure
+
+Be optimized for SEO performance
+
+FINAL INSTRUCTIONS
+
+After generating the system:
+
+Explain clearly:
+
+How I log into /admin
+
+How I publish a new blog post
+
+What happens after I click publish
+
+How Cloudflare deploys it
+
+How the blog appears live on my website
+
+The solution must be clean, production-ready, and not affect existing pages.

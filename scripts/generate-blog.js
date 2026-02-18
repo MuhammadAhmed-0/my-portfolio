@@ -1,63 +1,70 @@
-const fs = require('fs');
-const path = require('path');
-const matter = require('gray-matter');
-const { marked } = require('marked');
+const fs = require("fs");
+const path = require("path");
+const matter = require("gray-matter");
+const { marked } = require("marked");
 
-const CONTENT_DIR = path.join(__dirname, '..', 'content', 'blog');
-const OUTPUT_DIR = path.join(__dirname, '..', 'blog');
-const ROOT_DIR = path.join(__dirname, '..');
+const CONTENT_DIR = path.join(__dirname, "..", "content", "blog");
+const OUTPUT_DIR = path.join(__dirname, "..", "blog");
+const ROOT_DIR = path.join(__dirname, "..");
 
 function formatDate(dateStr) {
-  const d = new Date(dateStr);
-  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    const d = new Date(dateStr);
+    return d.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
 }
 
 function estimateReadTime(content) {
-  const words = content.split(/\s+/).length;
-  const minutes = Math.ceil(words / 200);
-  return `${minutes} min read`;
+    const words = content.split(/\s+/).length;
+    const minutes = Math.ceil(words / 200);
+    return `${minutes} min read`;
 }
 
 function getCategorySlug(category) {
-  const map = {
-    'SEO': 'seo',
-    'PPC': 'ppc',
-    'Content Marketing': 'content',
-    'Web Development': 'web-dev'
-  };
-  return map[category] || category.toLowerCase().replace(/\s+/g, '-');
+    const map = {
+        SEO: "seo",
+        PPC: "ppc",
+        "Content Marketing": "content",
+        "Web Development": "web-dev",
+    };
+    return map[category] || category.toLowerCase().replace(/\s+/g, "-");
 }
 
 function generateExcerpt(body, maxLen = 160) {
-  const text = body.replace(/[#*_\[\]()>`~\-]/g, '').replace(/\n+/g, ' ').trim();
-  if (text.length <= maxLen) return text;
-  return text.substring(0, maxLen).replace(/\s+\S*$/, '') + '...';
+    const text = body
+        .replace(/[#*_\[\]()>`~\-]/g, "")
+        .replace(/\n+/g, " ")
+        .trim();
+    if (text.length <= maxLen) return text;
+    return text.substring(0, maxLen).replace(/\s+\S*$/, "") + "...";
 }
 
 function buildPostHTML(data, htmlContent) {
-  const date = formatDate(data.date);
-  const readTime = estimateReadTime(data.body || '');
-  const categorySlug = getCategorySlug(data.category || 'SEO');
-  const canonical = `/blog/${data.slug}.html`;
-  const featuredImageAlt = data.featuredImageAlt || data.title;
+    const date = formatDate(data.date);
+    const readTime = estimateReadTime(data.body || "");
+    const categorySlug = getCategorySlug(data.category || "SEO");
+    const canonical = `/blog/${data.slug}.html`;
+    const featuredImageAlt = data.featuredImageAlt || data.title;
 
-  return `<!DOCTYPE html>
+    return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${data.metaTitle || data.title}</title>
-    <meta name="description" content="${data.metaDescription || data.excerpt || ''}">
+    <meta name="description" content="${data.metaDescription || data.excerpt || ""}">
     <link rel="canonical" href="${canonical}">
     <meta property="og:title" content="${data.metaTitle || data.title}">
-    <meta property="og:description" content="${data.metaDescription || data.excerpt || ''}">
+    <meta property="og:description" content="${data.metaDescription || data.excerpt || ""}">
     <meta property="og:type" content="article">
     <meta property="og:url" content="${canonical}">
-    <meta property="og:image" content="${data.featuredImage || ''}">
+    <meta property="og:image" content="${data.featuredImage || ""}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${data.metaTitle || data.title}">
-    <meta name="twitter:description" content="${data.metaDescription || data.excerpt || ''}">
-    <meta name="twitter:image" content="${data.featuredImage || ''}">
+    <meta name="twitter:description" content="${data.metaDescription || data.excerpt || ""}">
+    <meta name="twitter:image" content="${data.featuredImage || ""}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
@@ -91,7 +98,7 @@ function buildPostHTML(data, htmlContent) {
                     </svg>
                     Back to Blog
                 </a>
-                <span class="post-category">${data.category || 'SEO'}</span>
+                <span class="post-category">${data.category || "SEO"}</span>
                 <h1 class="post-title">${data.title}</h1>
                 <div class="post-meta">
                     <span class="post-meta-item">${date}</span>
@@ -103,7 +110,7 @@ function buildPostHTML(data, htmlContent) {
         <section class="blog-post-content">
             <div class="container">
                 <div class="post-featured-image has-image">
-                    <img src="${data.featuredImage || ''}" alt="${featuredImageAlt}">
+                    <img src="${data.featuredImage || ""}" alt="${featuredImageAlt}">
                 </div>
                 <div class="post-content">
                     ${htmlContent}
@@ -176,19 +183,22 @@ function buildPostHTML(data, htmlContent) {
 }
 
 function buildListingHTML(posts) {
-  const sortedPosts = posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+    const sortedPosts = posts.sort(
+        (a, b) => new Date(b.date) - new Date(a.date),
+    );
 
-  const cardsHTML = sortedPosts.map(post => {
-    const date = formatDate(post.date);
-    const readTime = estimateReadTime(post.body || '');
-    const excerpt = post.excerpt || generateExcerpt(post.body || '');
-    const categorySlug = getCategorySlug(post.category || 'SEO');
-    const featuredImageAlt = post.featuredImageAlt || post.title;
+    const cardsHTML = sortedPosts
+        .map((post) => {
+            const date = formatDate(post.date);
+            const readTime = estimateReadTime(post.body || "");
+            const excerpt = post.excerpt || generateExcerpt(post.body || "");
+            const categorySlug = getCategorySlug(post.category || "SEO");
+            const featuredImageAlt = post.featuredImageAlt || post.title;
 
-    return `
+            return `
                 <div class="blog-card" data-category="${categorySlug}">
                     <div class="blog-image" style="background: none; padding: 0;">
-                        <img src="${post.featuredImage || ''}" alt="${featuredImageAlt}" style="width: 100%; height: 200px; object-fit: cover;">
+                        <img src="${post.featuredImage || ""}" alt="${featuredImageAlt}" style="width: 100%; height: 200px; object-fit: cover;">
                     </div>
                     <div class="blog-content">
                         <div class="blog-meta">
@@ -207,9 +217,10 @@ function buildListingHTML(posts) {
                         </a>
                     </div>
                 </div>`;
-  }).join('\n');
+        })
+        .join("\n");
 
-  return `<!DOCTYPE html>
+    return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -352,120 +363,185 @@ ${cardsHTML}
 }
 
 function main() {
-  if (!fs.existsSync(OUTPUT_DIR)) {
-    fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-  }
-
-  if (!fs.existsSync(CONTENT_DIR)) {
-    console.log('No content/blog directory found. Creating it...');
-    fs.mkdirSync(CONTENT_DIR, { recursive: true });
-    console.log('No blog posts to generate. Add markdown files to content/blog/');
-    return;
-  }
-
-  const files = fs.readdirSync(CONTENT_DIR).filter(f => f.endsWith('.md'));
-
-  if (files.length === 0) {
-    console.log('No markdown files found in content/blog/');
-    return;
-  }
-
-  console.log(`Found ${files.length} blog post(s). Generating...`);
-
-  const allPosts = [];
-
-  for (const file of files) {
-    const filePath = path.join(CONTENT_DIR, file);
-    const raw = fs.readFileSync(filePath, 'utf-8');
-    const { data, content } = matter(raw);
-
-    if (!data.slug) {
-      data.slug = file.replace('.md', '');
+    if (!fs.existsSync(OUTPUT_DIR)) {
+        fs.mkdirSync(OUTPUT_DIR, { recursive: true });
     }
 
-    data.body = content;
+    if (!fs.existsSync(CONTENT_DIR)) {
+        console.log("No content/blog directory found. Creating it...");
+        fs.mkdirSync(CONTENT_DIR, { recursive: true });
+        console.log(
+            "No blog posts to generate. Add markdown files to content/blog/",
+        );
+        return;
+    }
 
-    const htmlContent = marked(content);
-    const postHTML = buildPostHTML(data, htmlContent);
-    const outputPath = path.join(OUTPUT_DIR, `${data.slug}.html`);
+    const files = fs.readdirSync(CONTENT_DIR).filter((f) => f.endsWith(".md"));
 
-    fs.writeFileSync(outputPath, postHTML, 'utf-8');
-    console.log(`  Generated: blog/${data.slug}.html`);
+    if (files.length === 0) {
+        console.log("No markdown files found in content/blog/");
+        return;
+    }
 
-    allPosts.push(data);
-  }
+    console.log(`Found ${files.length} blog post(s). Generating...`);
 
-  const listingHTML = buildListingHTML(allPosts);
-  const listingPath = path.join(OUTPUT_DIR, 'index.html');
-  fs.writeFileSync(listingPath, listingHTML, 'utf-8');
-  console.log(`  Generated: blog/index.html (listing page with ${allPosts.length} posts)`);
+    const allPosts = [];
 
-  const SITE_URL = 'https://muhammadahmed.pages.dev';
-  updateSitemap(allPosts, SITE_URL);
+    for (const file of files) {
+        const filePath = path.join(CONTENT_DIR, file);
+        const raw = fs.readFileSync(filePath, "utf-8");
+        const { data, content } = matter(raw);
 
-  console.log('\nBuild complete!');
+        if (!data.slug) {
+            data.slug = file.replace(".md", "");
+        }
+
+        data.body = content;
+
+        const htmlContent = marked(content);
+        const postHTML = buildPostHTML(data, htmlContent);
+        const outputPath = path.join(OUTPUT_DIR, `${data.slug}.html`);
+
+        fs.writeFileSync(outputPath, postHTML, "utf-8");
+        console.log(`  Generated: blog/${data.slug}.html`);
+
+        allPosts.push(data);
+    }
+
+    const listingHTML = buildListingHTML(allPosts);
+    const listingPath = path.join(OUTPUT_DIR, "index.html");
+    fs.writeFileSync(listingPath, listingHTML, "utf-8");
+    console.log(
+        `  Generated: blog/index.html (listing page with ${allPosts.length} posts)`,
+    );
+
+    updateHomepageBlogPreview(allPosts);
+
+    const SITE_URL = "https://muhammadahmed.pages.dev";
+    updateSitemap(allPosts, SITE_URL);
+
+    console.log("\nBuild complete!");
+}
+
+function updateHomepageBlogPreview(posts) {
+    const scriptPath = path.join(ROOT_DIR, "script.js");
+    if (!fs.existsSync(scriptPath)) {
+        console.log(
+            "  Skipped: script.js not found, cannot update homepage blog preview",
+        );
+        return;
+    }
+
+    let scriptContent = fs.readFileSync(scriptPath, "utf-8");
+
+    const sortedPosts = posts.sort(
+        (a, b) => new Date(b.date) - new Date(a.date),
+    );
+
+    const postsArray = sortedPosts
+        .map((post, i) => {
+            const date = formatDate(post.date);
+            const readTime = estimateReadTime(post.body || "");
+            const excerpt = (post.excerpt || generateExcerpt(post.body || ""))
+                .replace(/\n/g, " ")
+                .trim();
+            const featuredImage = post.featuredImage || "";
+
+            return `    {
+        id: ${i + 1},
+        title: ${JSON.stringify(post.title)},
+        excerpt: ${JSON.stringify(excerpt)},
+        category: ${JSON.stringify(post.category || "SEO")},
+        date: ${JSON.stringify(date)},
+        readTime: ${JSON.stringify(readTime)},
+        icon: "",
+        featuredImage: ${JSON.stringify(featuredImage)},
+        slug: ${JSON.stringify(post.slug)}
+    }`;
+        })
+        .join(",\n");
+
+    const newArray = `const blogPosts = [\n${postsArray}\n];`;
+
+    const arrayRegex = /const blogPosts = \[[\s\S]*?\];/;
+    if (arrayRegex.test(scriptContent)) {
+        scriptContent = scriptContent.replace(arrayRegex, newArray);
+    } else {
+        console.log("  Warning: Could not find blogPosts array in script.js");
+        return;
+    }
+
+    fs.writeFileSync(scriptPath, scriptContent, "utf-8");
+    console.log(
+        `  Updated: script.js (homepage blog preview with ${sortedPosts.length} posts)`,
+    );
 }
 
 function updateSitemap(posts, siteUrl) {
-  const sitemapPath = path.join(ROOT_DIR, 'sitemap.xml');
-  let existingUrls = new Map();
+    const sitemapPath = path.join(ROOT_DIR, "sitemap.xml");
+    let existingUrls = new Map();
 
-  if (fs.existsSync(sitemapPath)) {
-    const existing = fs.readFileSync(sitemapPath, 'utf-8');
-    const urlRegex = /<url>\s*<loc>([^<]+)<\/loc>\s*<lastmod>([^<]*)<\/lastmod>(?:\s*<changefreq>([^<]*)<\/changefreq>)?(?:\s*<priority>([^<]*)<\/priority>)?\s*<\/url>/g;
-    let match;
-    while ((match = urlRegex.exec(existing)) !== null) {
-      existingUrls.set(match[1], {
-        loc: match[1],
-        lastmod: match[2],
-        changefreq: match[3] || 'monthly',
-        priority: match[4] || '0.5'
-      });
+    if (fs.existsSync(sitemapPath)) {
+        const existing = fs.readFileSync(sitemapPath, "utf-8");
+        const urlRegex =
+            /<url>\s*<loc>([^<]+)<\/loc>\s*<lastmod>([^<]*)<\/lastmod>(?:\s*<changefreq>([^<]*)<\/changefreq>)?(?:\s*<priority>([^<]*)<\/priority>)?\s*<\/url>/g;
+        let match;
+        while ((match = urlRegex.exec(existing)) !== null) {
+            existingUrls.set(match[1], {
+                loc: match[1],
+                lastmod: match[2],
+                changefreq: match[3] || "monthly",
+                priority: match[4] || "0.5",
+            });
+        }
     }
-  }
 
-  for (const post of posts) {
-    const postUrl = `${siteUrl}/blog/${post.slug}.html`;
-    const lastmod = new Date(post.date).toISOString().split('T')[0];
-    existingUrls.set(postUrl, {
-      loc: postUrl,
-      lastmod: lastmod,
-      changefreq: 'monthly',
-      priority: '0.8'
+    for (const post of posts) {
+        const postUrl = `${siteUrl}/blog/${post.slug}.html`;
+        const lastmod = new Date(post.date).toISOString().split("T")[0];
+        existingUrls.set(postUrl, {
+            loc: postUrl,
+            lastmod: lastmod,
+            changefreq: "monthly",
+            priority: "0.8",
+        });
+    }
+
+    const blogIndexUrl = `${siteUrl}/blog/`;
+    existingUrls.set(blogIndexUrl, {
+        loc: blogIndexUrl,
+        lastmod: new Date().toISOString().split("T")[0],
+        changefreq: "weekly",
+        priority: "0.9",
     });
-  }
 
-  const blogIndexUrl = `${siteUrl}/blog/`;
-  existingUrls.set(blogIndexUrl, {
-    loc: blogIndexUrl,
-    lastmod: new Date().toISOString().split('T')[0],
-    changefreq: 'weekly',
-    priority: '0.9'
-  });
+    if (!existingUrls.has(`${siteUrl}/`)) {
+        existingUrls.set(`${siteUrl}/`, {
+            loc: `${siteUrl}/`,
+            lastmod: new Date().toISOString().split("T")[0],
+            changefreq: "weekly",
+            priority: "1.0",
+        });
+    }
 
-  if (!existingUrls.has(`${siteUrl}/`)) {
-    existingUrls.set(`${siteUrl}/`, {
-      loc: `${siteUrl}/`,
-      lastmod: new Date().toISOString().split('T')[0],
-      changefreq: 'weekly',
-      priority: '1.0'
-    });
-  }
-
-  const urlEntries = Array.from(existingUrls.values()).map(u => `  <url>
+    const urlEntries = Array.from(existingUrls.values())
+        .map(
+            (u) => `  <url>
     <loc>${u.loc}</loc>
     <lastmod>${u.lastmod}</lastmod>
     <changefreq>${u.changefreq}</changefreq>
     <priority>${u.priority}</priority>
-  </url>`).join('\n');
+  </url>`,
+        )
+        .join("\n");
 
-  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urlEntries}
 </urlset>`;
 
-  fs.writeFileSync(sitemapPath, sitemap, 'utf-8');
-  console.log(`  Updated: sitemap.xml (${existingUrls.size} URLs)`);
+    fs.writeFileSync(sitemapPath, sitemap, "utf-8");
+    console.log(`  Updated: sitemap.xml (${existingUrls.size} URLs)`);
 }
 
 main();

@@ -2,7 +2,7 @@ backend:
   name: github
   repo: MuhammadAhmed-0/my-portfolio
   branch: main
-  base_url: https://muhammadahmed.pages.dev
+  base_url: https://muhammadahmed.pages.dev/
   auth_endpoint: /api/auth
 
 media_folder: "images/uploads"
