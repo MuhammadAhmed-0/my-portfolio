@@ -1,7 +1,7 @@
 ---
 title: How to Boost Your Website SEO in 2025
 slug: how-to-boost-your-website-seo-in-2025
-date: 2025-04-01T10:00:00.000Z
+date: 2026-02-18T23:11:00.000+05:00
 metaTitle: How to Boost Your Website SEO in 2025 - Proven Strategies
 metaDescription: Learn the most effective SEO strategies to boost your website
   rankings in 2025. From technical SEO to content optimization, this guide
