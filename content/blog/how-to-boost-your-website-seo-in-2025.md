@@ -33,8 +33,6 @@ Core Web Vitals remain a critical ranking factor. Focus on these three metrics:
 3. Minimize JavaScript bundle sizes
 4. Use a Content Delivery Network (CDN)
 
-![](/images/uploads/images.jpg)
-
 ## 2. Create Expert-Level Content
 
 Google's E-E-A-T guidelines emphasize the importance of demonstrating real expertise. Your content should:
